@@ -24,9 +24,8 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
   /* Notification list API */
   def notificationList(): Action[AnyContent] = Action { request: Request[AnyContent] =>
     val source: String = Source.fromFile("/home/adinsst/IdeaProjects/demo-hcx/conf/project.json").getLines.mkString
-    val json: JsValue = Json.parse(source)
     Ok(source).as("application/json")
-    BadRequest(source).as(contentType = "application/json")
+
   }
 
  /* Notification for subscribe */
