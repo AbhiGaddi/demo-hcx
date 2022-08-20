@@ -46,6 +46,7 @@
         <play2.plugin.version>1.0.0-rc5</play2.plugin.version>
         <scala.major.version>2.12</scala.major.version>
         <scoverage.plugin.version>1.4.1</scoverage.plugin.version>
+        <fasterxml.jackson.version>2.9.8</fasterxml.jackson.version>
     </properties>
     <dependencies>
         <dependency>
@@ -112,6 +113,26 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-handler</artifactId>
             <version>4.1.30.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-scala_${scala.major.version}</artifactId>
+            <version>${fasterxml.jackson.version}</version>
+        </dependency>
+        <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${fasterxml.jackson.version}</version>
+    </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${fasterxml.jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${fasterxml.jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
