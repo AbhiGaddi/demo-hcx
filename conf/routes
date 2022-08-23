@@ -1,4 +1,4 @@
-GET                /notificationList            controllers.HomeController.notificationList
-POST               /subscribe                   controllers.HomeController.subscribe
-POST               /unsubscribe                 controllers.HomeController.unsubscribe
-POST               /notification/subscription/list            controllers.HomeController.subscriptionlist
+GET                /notification/topic/list                        controllers.HomeController.notificationList
+POST               /notification/subscribe                         controllers.HomeController.subscribe
+POST               /notification/unsubscribe                       controllers.HomeController.unsubscribe
+POST               /notification/subscription/list                 controllers.HomeController.subscriptionlist
