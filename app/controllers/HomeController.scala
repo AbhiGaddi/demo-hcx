@@ -1,5 +1,5 @@
-package controllers
-import com.datastax.driver.core.Cluster
+package controllers                          //Pacakge name
+import com.datastax.driver.core.Cluster      // Database connection
 import com.datastax.driver.core.Session
 import com.datastax.driver.core.Row
 import com.datastax.driver.core.ResultSet
@@ -14,7 +14,7 @@ import javax.inject._
 import java.util.UUID
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import java.util
+import java.util     //Hashmap
 
 class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder: AssetsFinder) extends AbstractController(cc) {
   val mapper = new ObjectMapper //creating object for mapping
@@ -29,9 +29,8 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
   /* Notification topic list API */
   def notificationList(): Action[AnyContent] = Action { request: Request[AnyContent] =>
     Ok(source).as("application/json")
-
-  }
-
+   }
+println(source)
   /* Notification for subscribe */
   def subscribe() = Action { request: Request[AnyContent] =>
     val json = request.body.asJson.getOrElse("{}", null).asInstanceOf[JsObject]
@@ -40,8 +39,7 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
     val senderCode = (json \ "sendercode").as[String]
     val subscriptionStatus = "Active"
     val topicCode = (json \ "topiccode").as[String]
-
-    if (senderCode.isEmpty) BadRequest("Please Enter SenderCode --!")
+    if (senderCode.isEmpty) BadRequest("Please Enter SenderCode --!")  // Basic Validation
     else {
       if (recipientCode.isEmpty) BadRequest("Please Enter RecipientCode --!")
       else {
@@ -49,7 +47,7 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
         else {
           val insertQuery = s"INSERT INTO notifier(subscriptionid,recipientcode,sendercode,subscriptionstatus,topiccode) VALUES($subscriptionId,'$recipientCode', '$senderCode','Active','$topicCode');"
           val resultSet = session.execute(insertQuery)
-          var responseMap = new java.util.HashMap[String, AnyRef]()
+          var responseMap = new java.util.HashMap[String, AnyRef]()   // mapping
           responseMap.put("subscriptionid", subscriptionId)
           responseMap.put("subscriptionstatus", "Active")
           val jsonResult = mapper.writeValueAsString(responseMap); //serialization from object to String
