@@ -8,13 +8,6 @@
     <name>${project.artifactId}</name>
     <description>Demo HCX Application</description>
     <inceptionYear>2022</inceptionYear>
-    <licenses>
-        <license>
-            <name>My License</name>
-            <url>http://....</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
     <repositories>
         <repository>
             <id>scalaz-bintray</id>
@@ -76,12 +69,7 @@
             </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.scalatestplus/junit-4-12 -->
-        <dependency>
-            <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.13</artifactId>
-            <version>3.1.1</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>com.typesafe.play</groupId>
             <artifactId>play-guice_${scala.major.version}</artifactId>
@@ -92,6 +80,12 @@
                     <groupId>com.google.guava</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_${scala.major.version}</artifactId>
+            <version>3.0.8</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.typesafe.play</groupId>
@@ -121,6 +115,7 @@
             <artifactId>netty-handler</artifactId>
             <version>4.1.30.Final</version>
         </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-scala_${scala.major.version}</artifactId>
@@ -131,17 +126,6 @@
         <artifactId>jackson-core</artifactId>
         <version>${fasterxml.jackson.version}</version>
     </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${fasterxml.jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${fasterxml.jackson.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
@@ -226,34 +210,23 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest-maven-plugin</artifactId>
+                <version>2.1.0</version>
                 <configuration>
-                    <archive>
-                        <!-- Configures the content of the created manifest -->
-                        <manifest>
-                            <!-- Adds the classpath to the created manifest -->
-                            <addClasspath>true</addClasspath>
-                            <!-- Specifies that all dependencies of our application are found -->
-                            <!-- Configures the main class of the application -->
-                            <mainClass>com.hcx.demo-hcx.controllers.HomeController</mainClass>
-                        </manifest>
-                    </archive>
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                    <junitxml>.</junitxml>
+                    <filereports>WDF TestSuite.txt</filereports>
                 </configuration>
-
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.7</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
-            </plugin>
-
             <plugin>
                 <groupId>org.scoverage</groupId>
                 <artifactId>scoverage-maven-plugin</artifactId>
