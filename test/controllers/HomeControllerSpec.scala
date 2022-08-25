@@ -32,26 +32,21 @@ class HomeControllerSpec extends Specification {
     status(result) must equalTo(OK)
   }
     // Testcases for subscriptionlist
-   "return success response for subscriptionlist API " in{
-     val controller=app.injector.instanceOf[controllers.HomeController]
-     val json:JsValue=Json.parse("""{"recipientcode":"recipientCode"}""")
-     val fakeRequest=FakeRequest("POST","/notification/subscription/list").withJsonBody(json)
-     val result=controller.subscriptionlist()(fakeRequest)
+   "return success response for subscriptionlist API " in {
+     val controller = app.injector.instanceOf[controllers.HomeController]
+     val json: JsValue = Json.parse("""{"recipientcode":"recipientCode"}""")
+     val fakeRequest = FakeRequest("POST", "/notification/subscription/list").withJsonBody(json)
+     val result = controller.subscriptionlist()(fakeRequest)
      status(result) must equalTo(OK)
-
+   }
      "return success response for notification topic list API" in {
        val controller=app.injector.instanceOf[controllers.HomeController]
-       val fakeRequest=FakeRequest("GET","/notification/topic/list").withJsonBody(json)
+       val fakeRequest=FakeRequest("GET","/notification/topic/list")
        val result=controller.notificationList()(fakeRequest)
        status(result) mustEqual(OK)
 
      }
-
-   }
-
   }
-
-
 }
 
 

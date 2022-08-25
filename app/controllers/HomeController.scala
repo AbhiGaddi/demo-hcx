@@ -30,7 +30,6 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
   def notificationList(): Action[AnyContent] = Action { request: Request[AnyContent] =>
     Ok(source).as("application/json")
    }
-println(source)
   /* Notification for subscribe */
   def subscribe() = Action { request: Request[AnyContent] =>
     val json = request.body.asJson.getOrElse("{}", null).asInstanceOf[JsObject]
