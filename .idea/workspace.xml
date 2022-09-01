@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bc9a733-5d63-4337-8989-c70244e54cef" name="Changes" comment="updated testcases" />
+    <list default="true" id="2bc9a733-5d63-4337-8989-c70244e54cef" name="Changes" comment="updated testcases">
+      <change afterPath="$PROJECT_DIR$/app/exception/ClientException.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/HomeController.scala" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/HomeController.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/controllers/HomeControllerSpec.scala" beforeDir="false" afterPath="$PROJECT_DIR$/test/controllers/HomeControllerSpec.scala" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,7 +72,7 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;controllers.HomeController&quot;,
     &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/adinsst/IdeaProjects/demo-hcx&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/adinsst/Documents/GitHub&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -162,6 +167,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="HomeControllerSpec" type="Specs2RunConfiguration" factoryName="Specs2" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="demo-hcx" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Class" />
+      <option name="testClassPath" value="controllers.HomeControllerSpec" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Specs2 in 'demo-hcx'" type="Specs2RunConfiguration" factoryName="Specs2" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="demo-hcx" />
       <option name="allowRunningInParallel" value="false" />
@@ -182,31 +200,22 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="Dockerhcx" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
-      <deployment type="docker-image">
-        <settings>
-          <option name="imageTag" value="sha256:9750420e5c1d06a1a0decec2a56444228cf5481751805d41d3b3265c191a8aba" />
-          <option name="containerName" value="demo-hcx" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Docker.Dockerfile" />
-      <item itemvalue="Docker.Dockerhcx" />
       <item itemvalue="JUnit.HomeControllerSpec" />
       <item itemvalue="JUnit.All in demo-hcx" />
       <item itemvalue="Maven.hcx-demo [compile:compile]" />
       <item itemvalue="Scala REPL.Unnamed" />
+      <item itemvalue="Specs2.HomeControllerSpec" />
       <item itemvalue="Specs2.Specs2 in 'demo-hcx'" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Specs2.HomeControllerSpec" />
         <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="JUnit.HomeControllerSpec" />
         <item itemvalue="JUnit.All in demo-hcx" />
         <item itemvalue="Specs2.Specs2 in 'demo-hcx'" />
-        <item itemvalue="Docker.Dockerhcx" />
       </list>
     </recent_temporary>
   </component>
@@ -283,7 +292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661402359477</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="updated testcases">
+      <created>1661402554073</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1661402554073</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -294,7 +310,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="hello-hcx" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
