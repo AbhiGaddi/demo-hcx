@@ -70,8 +70,6 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
     val jsonMap = mapper.readValue(json, classOf[util.Map[String, Object]])
     jsonMap
   }
-
-
   @throws(classOf[ClientException])
   def validateRequest(jsonMap: util.Map[String, Object]) = {
     val validateList: List[String] = List("sender_code", "recipient_code", "topic_code")
@@ -83,24 +81,37 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
   }
 
   /* Notification for unsubscribe */
+  @throws(classOf[ClientException])
     def unsubscribe() = Action { request: Request[AnyContent] =>
       val requestBody = jsonToMap(request)
+      try{
       validateRequest(requestBody)
-      val senderCode = requestBody.get("sender_coder").toString
+      val senderCode = requestBody.get("sender_code").toString
       val recipientCode = requestBody.get("recipient_code").toString
       val subscriptionStatus = "InActive"
       val topicCode = requestBody.get("topic_code").toString
       val subscriptionId = senderCode + "-" + topicCode + "-" + recipientCode
       val updateQuery = s"update notifierlist set subscription_status = 'InActive',updated_on = dateof(now()),created_on = null where subscription_id = '$subscriptionId' IF EXISTS;"
       val resultSet = session.execute(updateQuery)
-      if (resultSet.wasApplied() == false)
-        BadRequest(s" subscription with this Combination of Sendercode,receipentcode & topiccode  does not exist --! ")
+      if (resultSet.wasApplied() == false) {
+      val badresult : String = "subscription with this Combination of Sendercode,receipentcode & topiccode  does not exist"
+          val testMap =new util.HashMap[String,AnyRef]()
+          testMap.put("message",badresult)
+          testMap.put("status","Fail")
+        val badResult =mapper.writeValueAsString(testMap)
+        BadRequest(badResult).as("application/json")
+      }
       else {
         val resopnseMap = new java.util.HashMap[String, AnyRef]()
         resopnseMap.put("subscription_id", subscriptionId)
         resopnseMap.put("subscription_status", subscriptionStatus)
         val jsonResult = mapper.writeValueAsString(resopnseMap) //serialization from object to String
         Ok(jsonResult).as("application/json")
+      }
+      }
+      catch {
+        case ex :ClientException =>
+          BadRequest(ex.getMessage)
       }
     }
 
