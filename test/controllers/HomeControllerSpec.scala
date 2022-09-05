@@ -1,8 +1,8 @@
 package controllers
-import com.typesafe.config.ConfigFactory
 import org.junit.runner.RunWith
 import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
+import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.{JsValue, Json}
 import play.api.test.FakeRequest
@@ -11,8 +11,7 @@ import play.api.test.Helpers._
 @RunWith(classOf[JUnitRunner])
 class HomeControllerSpec extends Specification {
 
-  val app = new GuiceApplicationBuilder().build
-  val config = ConfigFactory.load();
+  val app: Application = new GuiceApplicationBuilder().build
 
   "HomeController" should {
     // Test cases for Subscribe
@@ -21,7 +20,6 @@ class HomeControllerSpec extends Specification {
         val json: JsValue = Json.parse("""{"sender_code":"user@25","recipient_code":"user@31","topic_code":"notification-sent-success"}""")
         val fakeRequest = FakeRequest("POST", "/notification/subscribe").withJsonBody(json)
         val result = controller.subscribe()(fakeRequest)
-        println(contentAsString(result))
         status(result) must equalTo(OK)
       }
     // Testcases for unsubscribe
@@ -30,7 +28,6 @@ class HomeControllerSpec extends Specification {
     val json:JsValue=Json.parse("""{"sender_code":"user@25","recipient_code":"user@31","topic_code":"notification-sent-success"}""")
     val fakeRequest=FakeRequest("POST","/notification/unsubscribe").withJsonBody(json)
     val result =controller.unsubscribe()(fakeRequest)
-    println(contentAsString(result))
     status(result) must equalTo(OK)
   }
     // Testcases for subscriptionlist
@@ -38,8 +35,7 @@ class HomeControllerSpec extends Specification {
      val controller = app.injector.instanceOf[controllers.HomeController]
      val json: JsValue = Json.parse("""{"recipient_code":"user@2"}""")
      val fakeRequest = FakeRequest("POST", "/notification/subscription/list").withJsonBody(json)
-     val result = controller.subscriptionlist()(fakeRequest)
-
+     val result = controller.subscriptionList()(fakeRequest)
      status(result) must equalTo(OK)
    }
     // Testcases for Notificationtopiclist
@@ -53,13 +49,7 @@ class HomeControllerSpec extends Specification {
   }
   // Bad Requests
    "Home controller with invalid request " should {
-    "return error response for subscribelist  API" in {
-      val controller = app.injector.instanceOf[controllers.HomeController]
-      val json: JsValue = Json.parse("""{ "recipient_code":""}""")
-      val fakeRequest = FakeRequest("POST", "/notification/subscription/list").withJsonBody(json)
-      val result = controller.subscriptionlist()(fakeRequest)
-      status(result) must equalTo(BAD_REQUEST)
-    }
+
      "return Badrequest response for subscribe  API" in {
        val controller = app.injector.instanceOf[controllers.HomeController]
        val json:JsValue=Json.parse("""{"sender_code":"","recipient_code":"","topic_code":""}""")
@@ -69,11 +59,19 @@ class HomeControllerSpec extends Specification {
      }
      "return Badrequest response for unsubscribe  API" in {
        val controller = app.injector.instanceOf[controllers.HomeController]
-       val json:JsValue=Json.parse("""{"sender_code":" ","recipient_code":" ","topic_code":""}""")
+       val json: JsValue = Json.parse("""{"sender_code":" ","recipient_code":" ","topic_code":""}""")
        val fakeRequest = FakeRequest("POST", "/notification/unsubscribe").withJsonBody(json)
        val result = controller.unsubscribe()(fakeRequest)
        status(result) must equalTo(BAD_REQUEST)
      }
+     "return error response for subscribeList  API" in {
+       val controller = app.injector.instanceOf[controllers.HomeController]
+       val json: JsValue = Json.parse("""{ "recipient_code":""}""")
+       val fakeRequest = FakeRequest("POST", "/notification/subscription/list").withJsonBody(json)
+       val result = controller.subscriptionList()(fakeRequest)
+       status(result) must equalTo(BAD_REQUEST)
+     }
+
 
   }
 
