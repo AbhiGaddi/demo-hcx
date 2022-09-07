@@ -10,13 +10,14 @@ class Cassandra {
   val conf: Config = ConfigFactory.load()
   val host: String = conf.getString("cassandra.host")
   val port: Int =conf.getInt("cassandra.port")
+  val keyspaceName: String = conf.getString("cassandra.keyspaceName")
 
   def getSession: Session ={
     val cluster = Cluster.builder()
       .addContactPoint(host)
       .withPort(port)
       .build()
-    cluster.connect("cassandrademo")
+    cluster.connect(keyspaceName)
   }
 
   def read(query: String): util.List[Row] = {
