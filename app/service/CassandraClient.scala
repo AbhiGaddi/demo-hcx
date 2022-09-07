@@ -1,11 +1,11 @@
-package cassandraClient
+package service
 
 import com.datastax.driver.core.{Cluster, Row, Session}
 import com.typesafe.config.{Config, ConfigFactory}
 
 import java.util
 
-class Cassandra {
+class CassandraClient {
 
   val conf: Config = ConfigFactory.load()
   val host: String = conf.getString("cassandra.host")

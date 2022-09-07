@@ -1,12 +1,12 @@
 package controllers
-import cassandraClient.Cassandra
+import service.CassandraClient
 import com.fasterxml.jackson.databind.ObjectMapper
 import exception.ClientException
 import org.apache.commons.collections.MapUtils
-import play.api.libs.json.Format.GenericFormat
+import org.apache.commons.lang3.StringUtils
 import play.api.libs.json.Json
-import play.api.libs.json.OFormat.oFormatFromReadsAndOWrites
 import play.api.mvc._
+
 import java.util
 import javax.inject._
 import scala.collection.JavaConverters._
@@ -15,10 +15,10 @@ import scala.language.{dynamics, postfixOps}
 
 class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder: AssetsFinder) extends AbstractController(cc){
 
-  private val cassandra = new Cassandra
+  private val cassandra = new CassandraClient
   private val mapper = new ObjectMapper //creating object for mapping
-  private val source: String = Source.fromFile("/project.json").mkString
- //val source: String = Source.fromFile(getClass().getResource("/project.json").getFile()).mkString
+  //private val source: String = Source.fromFile("/project.json").mkString
+ val source: String = Source.fromFile(getClass().getResource("/project.json").getFile()).mkString
   /* Notification topic list API */
   def notificationList(): Action[AnyContent] = Action { request: Request[AnyContent] =>
     Ok(source).as("application/json")
@@ -53,19 +53,20 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
     val json = request.body.asJson.getOrElse("{}").toString
     mapper.readValue(json, classOf[util.Map[String, Object]])
   }
+
+
 /* validation for subscribe & unsubscribe */
   @throws(classOf[ClientException])
   def validateRequest(jsonMap: util.Map[String, Object]): Unit = {
     if(MapUtils.isEmpty(jsonMap))
-      throw new ClientException("Invalid request body")
+      throw new ClientException("Json request body is Empty")
     val validateList: List[String] = List("sender_code", "recipient_code", "topic_code")
     for (property <- validateList) {
       validateProperty(jsonMap, property)
     }
   }
-
   private def validateProperty(jsonMap: util.Map[String, Object], property: String): Unit = {
-    if (!jsonMap.containsKey(property) || jsonMap.getOrDefault(property, "").toString.isEmpty)
+    if (!jsonMap.containsKey(property) || jsonMap.getOrDefault(property, "").toString.isEmpty || StringUtils.isBlank(jsonMap.getOrDefault(property,"").asInstanceOf[String]))
       throw new ClientException(s"$property is missing or empty")
   }
 
@@ -95,20 +96,22 @@ class HomeController @Inject()(cc: ControllerComponents) (implicit assetsFinder:
   def subscriptionList(): Action[AnyContent] = Action { request: Request[AnyContent] =>
     try {
       val jsonMap = jsonToMap(request)
-      if(MapUtils.isEmpty(jsonMap))
+      if (MapUtils.isEmpty(jsonMap))
         throw new ClientException("Json request body is empty")
       validateProperty(jsonMap, "recipient_code")
       val recipientCode = jsonMap.get("recipient_code").asInstanceOf[String].trim()
       val searchQuery = s"select json * from notifierlist where recipient_code= '$recipientCode' ALLOW FILTERING"
       val result = cassandra.read(searchQuery)
-      val responseList =new util.ArrayList[Any]()
-      val rsList = result.asScala
-         for (row <- rsList) {
-           responseList.add(row.getString(0))
-         }
-      Ok(responseList.toString).as("application/json")
-    }
-    catch {
+        val responseList = new util.ArrayList[Any]()
+        val rsList = result.asScala
+        for (row <- rsList) {
+          responseList.add(row.getString(0))
+        }
+        Ok(responseList.toString).as("application/json")
+      }
+
+
+  catch {
       case ex: ClientException =>
         BadRequest(jsonToString(Map("status" -> "fail", "message" -> ex.getMessage))).as("application/json")
     }
