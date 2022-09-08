@@ -1,8 +1,5 @@
 package exception
 
-class ClientException(message:String) extends Exception(message){
+class ClientException(message: String) extends Exception(message) {
 
-
-
-
-    }
+}
